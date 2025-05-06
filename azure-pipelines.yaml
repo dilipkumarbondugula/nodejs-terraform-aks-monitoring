@@ -7,9 +7,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  ACR_NAME: 'myacr1234'
-  IMAGE_NAME: 'aks-app'
-  RESOURCE_GROUP: 'aks-rg'
+ - name: ACR_NAME
+   value: 'myacr1234'
+ - name: IMAGE_NAME
+   value: 'aks-app'
+ - name: RESOURCE_GROUP
+   value: 'aks-rg'
+ - group: TerraformSecrets
 
 steps:
 
@@ -27,7 +31,12 @@ steps:
 - script: |
     cd terraform
     terraform init
-    terraform apply -var="subscription_id=c88d90c5-6e81-4db6-8ee8-cc1ca2ca2d31" -auto-approve
+    terraform apply \
+      -var="subscription_id=$(AZURE_SUBSCRIPTION_ID)" \
+      -var="client_id=$(AZURE_CLIENT_ID)" \
+      -var="client_secret=$(AZURE_CLIENT_SECRET)" \
+      -var="tenant_id=$(AZURE_TENANT_ID)" \
+      -auto-approve
   displayName: 'Provision AKS + ACR'
 
 - task: AzureCLI@2
