@@ -1,0 +1,54 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  ACR_NAME: 'myacr1234'
+  IMAGE_NAME: 'aks-app'
+  RESOURCE_GROUP: 'aks-rg'
+
+steps:
+
+- checkout: self
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: '1.5.0'
+
+- script: |
+    cd terraform
+    terraform init
+    terraform apply -auto-approve
+  displayName: 'Provision AKS + ACR'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '<Your Azure DevOps Service Connection>'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az aks get-credentials --resource-group $(RESOURCE_GROUP) --name aks-cluster --overwrite-existing
+
+- script: |
+    docker build -t $(ACR_NAME).azurecr.io/$(IMAGE_NAME):latest ./app
+    az acr login --name $(ACR_NAME)
+    docker push $(ACR_NAME).azurecr.io/$(IMAGE_NAME):latest
+  displayName: 'Build & Push Docker Image'
+
+- script: |
+    kubectl apply -f manifests/
+  displayName: 'Deploy App to AKS'
+
+- script: |
+    chmod +x helm/install_monitoring.sh
+    ./helm/install_monitoring.sh
+  displayName: 'Install Prometheus + Grafana via Helm'
