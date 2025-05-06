@@ -27,7 +27,7 @@ steps:
 - script: |
     cd terraform
     terraform init
-    terraform apply -auto-approve
+    terraform apply -var="subscription_id=c88d90c5-6e81-4db6-8ee8-cc1ca2ca2d31" -auto-approve
   displayName: 'Provision AKS + ACR'
 
 - task: AzureCLI@2
