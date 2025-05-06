@@ -8,7 +8,7 @@ pool:
 
 variables:
  - name: ACR_NAME
-   value: 'myacr1234'
+   value: 'myacrdilip1234'
  - name: IMAGE_NAME
    value: 'aks-app'
  - name: RESOURCE_GROUP
