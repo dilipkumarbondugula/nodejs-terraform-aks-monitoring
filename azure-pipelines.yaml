@@ -8,7 +8,7 @@ pool:
 
 variables:
  - name: ACR_NAME
-   value: 'myacrdilip1234'
+   value: 'myacrbdili123456'
  - name: IMAGE_NAME
    value: 'aks-app1'
  - name: RESOURCE_GROUP
@@ -45,7 +45,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az aks get-credentials --resource-group $(RESOURCE_GROUP) --name aks-cluster --overwrite-existing
+      az aks get-credentials --resource-group $(RESOURCE_GROUP) --name aksbdilipcluster --overwrite-existing
 
 - script: |
     docker build -t $(ACR_NAME).azurecr.io/$(IMAGE_NAME):latest ./app

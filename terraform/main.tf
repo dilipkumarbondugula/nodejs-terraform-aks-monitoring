@@ -8,12 +8,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "aks-rg2"
+  name     = "aks-rg3"
   location = "West Europe"
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "myacrbdilip12345"
+  name                = "myacrbdili123456"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   sku                 = "Basic"
@@ -21,10 +21,10 @@ resource "azurerm_container_registry" "acr" {
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "aksdilipcluster"
+  name                = "aksbdilipcluster"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  dns_prefix          = "aksdilipcluster"
+  dns_prefix          = "aksbdilipcluster"
 
   default_node_pool {
     name       = "default"
