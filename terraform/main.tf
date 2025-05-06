@@ -8,12 +8,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "aks-rg1"
-  location = "East US"
+  name     = "aks-rg2"
+  location = "West Europe"
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "myacrbdilip1234"
+  name                = "myacrbdilip12345"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   sku                 = "Basic"
@@ -29,7 +29,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name       = "default"
     node_count = 1
-    vm_size    = "Standard_DS2_v2"
+    vm_size    = "Standard_B2s"
   }
 
   identity {
