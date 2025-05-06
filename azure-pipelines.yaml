@@ -10,9 +10,9 @@ variables:
  - name: ACR_NAME
    value: 'myacrdilip1234'
  - name: IMAGE_NAME
-   value: 'aks-app'
+   value: 'aks-app1'
  - name: RESOURCE_GROUP
-   value: 'aks-rg'
+   value: 'aks-rg1'
  - group: TerraformSecrets
 
 steps:
